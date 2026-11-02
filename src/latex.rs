@@ -887,8 +887,27 @@ mod tests {
         }
     }
     #[test]
-    fn reference_table_layout_options() {
-        let doc = super::super::parse(include_str!("../examples/referencia/trecho.cb")).unwrap();
+    fn configured_table_layout_options() {
+        // Keep this unit-test input self-contained: private reference documents
+        // and examples may be removed without breaking `cargo test` or Clippy.
+        let doc = super::super::parse(
+            "@caption Full width\n\
+             @table width=1 columns=0.48,* align=lc\n\
+             | Parameter | Value |\n\
+             | --- | --- |\n\
+             | Sample | 1 |\n\n\
+             @caption Reduced width\n\
+             @table width=0.75 columns=0.30,* align=lc\n\
+             | Parameter | Value |\n\
+             | --- | --- |\n\
+             | Sample | 2 |\n\n\
+             @caption Multiple columns\n\
+             @table width=1 columns=0.15,0.24,0.12,0.12,0.15,* align=cccccc\n\
+             | A | B | C | D | E | F |\n\
+             | --- | --- | --- | --- | --- | --- |\n\
+             | 1 | 2 | 3 | 4 | 5 | 6 |",
+        )
+        .unwrap();
         let tex = source(&doc, Paper::Letter).unwrap();
         assert_eq!(tex.matches("\\begin{tabularx}").count(), 3);
         assert!(tex.contains(r"\begin{tabularx}{0.750000\textwidth}"));

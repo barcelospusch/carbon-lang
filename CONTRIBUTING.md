@@ -8,7 +8,7 @@ cargo clippy --all-targets --locked -- -D warnings
 cargo test --locked
 ```
 
-Mudanças em layout, parser, figuras ou Mermaid devem incluir casos que exercitem o comportamento. Os testes ignorados por padrão requerem fontes TrueType, Tectonic e/ou Mermaid/Chromium; execute `cargo test --locked -- --include-ignored` após instalar esses runtimes.
+Mudanças em layout, parser, figuras ou Mermaid devem incluir casos que exercitem o comportamento. Os testes ignorados por padrão requerem fontes TrueType, Tectonic e/ou Mermaid/Chromium; execute `cargo test --locked -- --include-ignored --test-threads=1` após instalar esses runtimes.
 
 Compile os exemplos com `python scripts/check-examples.py --binary target/release/carbon` (Windows: `target/release/carbon.exe`). Não versione target, output, dist, node_modules, caches nem runtimes baixados.
 

@@ -37,7 +37,7 @@ fn renderer(explicit: Option<&Path>) -> Result<Command> {
     let local = Path::new("tools/mermaid/node_modules/@mermaid-js/mermaid-cli/src/cli.js");
     let chosen = chosen.or_else(|| {
         if local.is_file() {
-            return fs::canonicalize(local).ok();
+            return dunce::canonicalize(local).ok();
         }
         let exe = std::env::current_exe().ok()?;
         exe.ancestors()
@@ -47,7 +47,9 @@ fn renderer(explicit: Option<&Path>) -> Result<Command> {
     });
     if let Some(path) = chosen {
         let path = if path.components().count() > 1 || path.is_file() {
-            fs::canonicalize(&path)
+            // std::fs::canonicalize adds a Windows verbatim (\\?\) prefix.
+            // Node 22 cannot reliably resolve that prefix on runner drive D:.
+            dunce::canonicalize(&path)
                 .with_context(|| format!("cannot locate Mermaid CLI {}", path.display()))?
         } else {
             path
@@ -138,6 +140,33 @@ mod tests {
         ] {
             assert!(crate::parse(bad).is_err(), "{bad}");
         }
+    }
+    #[test]
+    #[ignore = "requires Node.js"]
+    fn node_entrypoint_works_from_another_directory() {
+        let scripts = tempfile::tempdir().unwrap();
+        let work = tempfile::tempdir().unwrap();
+        let entry = scripts.path().join("renderer com espaco.mjs");
+        fs::write(&entry, "console.log('carbon-path-ok');").unwrap();
+        let mut command = renderer(Some(&entry)).unwrap();
+        #[cfg(windows)]
+        {
+            let argument = command.get_args().next().unwrap().to_string_lossy();
+            assert!(
+                !argument.starts_with(r"\\?\"),
+                "Node entry point uses a verbatim path: {argument}"
+            );
+        }
+        let output = command.current_dir(work.path()).output().unwrap();
+        assert!(
+            output.status.success(),
+            "{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        assert_eq!(
+            String::from_utf8(output.stdout).unwrap().trim(),
+            "carbon-path-ok"
+        );
     }
     #[test]
     #[ignore = "requires Mermaid CLI, Chromium, and Tectonic"]

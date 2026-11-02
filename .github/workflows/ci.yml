@@ -63,7 +63,12 @@ jobs:
       - name: Install Mermaid and Chromium
         shell: pwsh
         run: ./scripts/install-mermaid.ps1
-      - run: cargo test --locked -- --include-ignored
+      # Cold Tectonic caches are shared across processes; initialize formats
+      # sequentially to avoid competing texput.fmt writes on Windows.
+      - name: Integration tests (serial runtime initialization)
+        run: cargo test --locked -- --include-ignored --test-threads=1
+        env:
+          RUST_BACKTRACE: '1'
       - run: cargo build --release --locked
       - run: python scripts/check-examples.py --binary target/release/carbon.exe
       - uses: actions/upload-artifact@v4

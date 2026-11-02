@@ -1,6 +1,6 @@
 [package]
 name = "carbon"
-version = "0.1.0"
+version = "0.1.2"
 edition = "2021"
 rust-version = "1.88"
 description = "Carbon markup compiler with LaTeX typography, scientific math, figures and Mermaid diagrams"
@@ -16,6 +16,7 @@ clap = { version = "4.5.50", features = ["derive"] }
 printpdf = { version = "=0.7.0", default-features = false }
 ttf-parser = "0.25.1"
 tempfile = "3.23.0"
+dunce = "1.0.5"
 image = { version = "0.25.10", default-features = false, features = ["png", "jpeg"] }
 
 [lints.rust]

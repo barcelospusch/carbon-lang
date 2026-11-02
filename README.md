@@ -367,7 +367,7 @@ cargo test --locked
 Com fontes, Tectonic e Mermaid/Chromium instalados:
 
 ```sh
-cargo test --locked -- --include-ignored
+cargo test --locked -- --include-ignored --test-threads=1
 ```
 
 Os testes de integração são ignorados por padrão porque requerem esses runtimes. A CI cobre os checks Rust em Windows, Linux e macOS; o job de integração Windows compila todos os exemplos e executa os testes completos. Veja [CONTRIBUTING.md](CONTRIBUTING.md).

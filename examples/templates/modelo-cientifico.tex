@@ -1,0 +1,294 @@
+\documentclass[11pt, a4paper]{article}
+
+% ==============================================================================
+% CONFIGURAÇÕES DE PÁGINA E IDIOMA
+% ==============================================================================
+\usepackage[a4paper, margin=2.5cm]{geometry}
+\usepackage{fontspec}
+\usepackage[brazilian, english, bidi=basic, provide=*]{babel}
+\babelprovide[import, onchar=ids fonts]{brazilian}
+\babelfont{rm}{Noto Sans}
+
+% ==============================================================================
+% PACOTES ESSENCIAIS PARA ESCRITA CIENTÍFICA
+% ==============================================================================
+% Matemática Avançada
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{mathtools}
+
+% Tabelas de Alta Qualidade
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{tabularx}
+
+% Gráficos e Imagens
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+
+% Algoritmos e Listagens de Código
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Bibliografia e Citações (BibLaTeX com estilo IEEE)
+\usepackage[backend=biber, style=numeric-comp, sorting=none]{biblatex}
+
+% Hiperlinks (Sempre carregado por último)
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navyblue,
+    citecolor=emerald,
+    urlcolor=cobalt,
+    pdftitle={Modelo Estruturado de Artigo Científico},
+    pdfauthor={Nome do Autor}
+}
+
+% ==============================================================================
+% DEFINIÇÃO DE CORES E ESTILOS
+% ==============================================================================
+\definecolor{navyblue}{RGB}{20, 50, 100}
+\definecolor{emerald}{RGB}{0, 120, 80}
+\definecolor{cobalt}{RGB}{0, 80, 180}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codebackground}{rgb}{0.96,0.96,0.96}
+
+% Configuração para listagens de código (Listings)
+\lstset{
+    backgroundcolor=\color{codebackground},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{navyblue}\bfseries,
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{emerald},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=8pt,
+    showspaces=false,
+    showtabs=false
+}
+
+% ==============================================================================
+% AMBIENTES MATEMÁTICOS (Teoremas, Definições, Lemas)
+% ==============================================================================
+\theoremstyle{definition}
+\newtheorem{definition}{Definição}[section]
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{lemma}[theorem]{Lema}
+\newtheorem{corollary}[theorem]{Corolário}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Observação}
+
+% ==============================================================================
+% BASE DE DADOS BIBLIOGRÁFICA (Exemplo Embutido)
+% ==============================================================================
+\begin{filecontents*}{\jobname.bib}
+@article{shannon1948,
+  author  = {Shannon, Claude E.},
+  title   = {A Mathematical Theory of Communication},
+  journal = {Bell System Technical Journal},
+  volume  = {27},
+  number  = {3},
+  pages   = {379--423},
+  year    = {1948}
+}
+
+@book{knuth1984,
+  author    = {Knuth, Donald E.},
+  title     = {The {\TeX}book},
+  publisher = {Addison-Wesley},
+  year      = {1984},
+  address   = {Reading, Massachusetts}
+}
+\end{filecontents*}
+
+\addbibresource{\jobname.bib}
+
+% ==============================================================================
+% METADADOS DO DOCUMENTO
+% ==============================================================================
+\title{\textbf{\Large Modelo Estruturado para Escrita Científica em {\LaTeX}}}
+\author{
+    \textbf{Autor Principal}\thanks{Contato: \href{mailto:autor@instituicao.org}{autor@instituicao.org}} \\
+    \small Departamento de Ciência da Computação \\
+    \small Universidade de Excelência Científica
+    \and
+    \textbf{Coautor da Pesquisa} \\
+    \small Instituto de Física Aplicada \\
+    \small Centro de Pesquisa Avançada
+}
+\date{\today}
+
+% ==============================================================================
+% INÍCIO DO DOCUMENTO
+% ==============================================================================
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Este documento apresenta um modelo abrangente e padronizado para a redação de artigos e relatórios científicos utilizando {\LaTeX}. São contempladas as principais funcionalidades necessárias na escrita acadêmica de alto nível: formulações matemáticas avançadas, estruturação de teoremas, tabelas no padrão \texttt{booktabs}, ambientes de código fonte, inclusão de algoritmos, figuras estruturadas e gerenciamento bibliográfico automatizado com \texttt{BibLaTeX}. O objetivo principal é servir como base reautilizável e pronta para submissões científicas.
+\end{abstract}
+
+\textbf{Palavras-chave:} Escrita Científica, {\LaTeX}, Modelo Estruturado, BibLaTeX, Matemática Formal.
+
+\section{Introdução}
+\label{sec:introducao}
+
+A escrita científica exige rigor, clareza visual e reprodutibilidade. O sistema {\LaTeX} estabeleceu-se como o padrão de fato para a publicação em disciplinas exatas e tecnológicas devido ao seu controle preciso sobre tipografia e equações \cite{knuth1984}.
+
+Neste modelo, cobrimos os blocos de construção essenciais que todo pesquisador utiliza ao compor um artigo ou relatório acadêmico:
+\begin{itemize}
+    \item Formatação formal de equações e ambientes de teoremas (Seção \ref{sec:matematica});
+    \item Organização de dados quantitativos através de tabelas limpas (Seção \ref{sec:tabelas});
+    \item Apresentação de pseudo-código e código de programação (Seção \ref{sec:algoritmos});
+    \item Referência cruzada e citação bibliográfica rigorosa (Seção \ref{sec:referencias}).
+\end{itemize}
+
+\section{Fundamentação Teórica e Matemática}
+\label{sec:matematica}
+
+A manipulação de expressões matemáticas é uma das maiores forças do {\LaTeX}. Abaixo são demonstrados os ambientes matemáticos fundamentais disponibilizados pelos pacotes \texttt{amsmath} e \texttt{mathtools}.
+
+\subsection{Equações Inline e Destacadas}
+
+Variáveis e expressões simples podem ser escritas no corpo do texto, tais como $f(x) = x^2 + 2x + 1$ ou $e^{i\pi} + 1 = 0$. Para equações centrais ao desenvolvimento teórico, utiliza-se o ambiente numerado:
+
+\begin{equation}
+    \label{eq:fourier}
+    \hat{f}(\xi) = \int_{-\infty}^{\infty} f(t) \, e^{-2\pi i t \xi} \, dt
+\end{equation}
+
+A Equação \ref{eq:fourier} representa a Transformada de Fourier contínua. Para sistemas de equações desalinhadas ou em múltiplas linhas, o ambiente \texttt{align} é recomendado:
+
+\begin{align}
+    \nabla \cdot \mathbf{E} &= \frac{\rho}{\varepsilon_0} \label{eq:maxwell1} \\
+    \nabla \cdot \mathbf{B} &= 0 \label{eq:maxwell2} \\
+    \nabla \times \mathbf{E} &= -\frac{\partial \mathbf{B}}{\partial t} \label{eq:maxwell3} \\
+    \nabla \times \mathbf{B} &= \mu_0 \mathbf{J} + \mu_0 \varepsilon_0 \frac{\partial \mathbf{E}}{\partial t} \label{eq:maxwell4}
+\end{align}
+
+\subsection{Teoremas, Definições e Lemas}
+
+Ambientes formais auxiliam na leitura e identificação de contribuições teóricas.
+
+\begin{definition}[Entropia de Informação]
+\label{def:entropia}
+Seja $X$ uma variável aleatória discreta com conjunto de estados $\mathcal{X}$ e distribuição de probabilidade $P(X)$. A entropia $H(X)$ é dada por:
+\begin{equation}
+    H(X) = -\sum_{x \in \mathcal{X}} P(x) \log_2 P(x)
+\end{equation}
+\end{definition}
+
+\begin{theorem}[Teorema da Amostragem de Nyquist-Shannon]
+\label{thm:shannon}
+Se um sinal contínuo $x(t)$ não contém frequências superiores a $B$ Hertz, ele pode ser completamente determinado a partir de suas amostras colhidas a uma taxa uniforme de $f_s > 2B$.
+\end{theorem}
+
+\begin{proof}
+A demonstração decorre diretamente da análise de Fourier no domínio da frequência \cite{shannon1948}.
+\end{proof}
+
+\section{Apresentação de Dados: Tabelas e Figuras}
+\label{sec:tabelas}
+
+\subsection{Tabelas de Qualidade de Publicação}
+
+Em documentos científicos impressos ou em PDF, deve-se evitar linhas verticais em tabelas. O pacote \texttt{booktabs} oferece os comandos \texttt{\textbackslash toprule}, \texttt{\textbackslash midrule} e \texttt{\textbackslash bottomrule}.
+
+\begin{table}[h]
+\centering
+\caption{Comparação de desempenho entre algoritmos de ordenação.}
+\label{tab:desempenho}
+\begin{tabular}{l c c c}
+\toprule
+\textbf{Algoritmo} & \textbf{Complexidade (Méd)} & \textbf{Complexidade (Pior)} & \textbf{Memória} \\
+\midrule
+Quicksort   & $\mathcal{O}(n \log n)$ & $\mathcal{O}(n^2)$      & $\mathcal{O}(\log n)$ \\
+Mergesort   & $\mathcal{O}(n \log n)$ & $\mathcal{O}(n \log n)$ & $\mathcal{O}(n)$ \\
+Heapsort    & $\mathcal{O}(n \log n)$ & $\mathcal{O}(n \log n)$ & $\mathcal{O}(1)$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Figuras e Subfiguras}
+
+Para a inserção de elementos visuais, recomenda-se o uso de vetores (SVG convertidos para PDF) ou imagens de alta resolução (PNG/JPEG). O código a seguir exemplifica a estrutura formal (com uma caixa simulada para fins de demonstração).
+
+\begin{figure}[h]
+\centering
+\framebox[0.6\textwidth][c]{\rule{0pt}{3cm} Representação Visual / Gráfico em PDF}
+\caption{Diagrama conceitual do fluxo de processamento de dados.}
+\label{fig:fluxo}
+\end{figure}
+
+\section{Algoritmos e Código-Fonte}
+\label{sec:algoritmos}
+
+O pacote \texttt{algpseudocode} permite descrever métodos procedimentais de forma estruturada.
+
+\begin{algorithm}[h]
+\caption{Busca Binária Iterativa}\label{alg:binarysearch}
+\begin{algorithmic}[1]
+\Procedure{BinarySearch}{$A, v, n$}
+    \State $left \gets 1$
+    \State $right \gets n$
+    \While{$left \le right$}
+        \State $mid \gets \lfloor (left + right) / 2 \rfloor$
+        \If{$A[mid] == v$}
+            \State \Return $mid$
+        \ElsIf{$A[mid] < v$}
+            \State $left \gets mid + 1$
+        \Else
+            \State $right \gets mid - 1$
+        \EndIf
+    \EndWhile
+    \State \Return \textbf{null}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+Para trechos de código real, o pacote \texttt{listings} oferece realce de sintaxe personalizável:
+
+\begin{lstlisting}[language=Python, caption={Exemplo de implementação em Python.}, label={lst:python}]
+def calcular_entropia(probabilidades):
+    import math
+    entropia = 0.0
+    for p in probabilidades:
+        if p > 0:
+            entropia -= p * math.log2(p)
+    return entropia
+\end{lstlisting}
+
+\section{Citações e Referências Cruzadas}
+\label{sec:referencias}
+
+O gerenciamento de citações neste modelo utiliza \texttt{BibLaTeX}. É possível realizar citações diretas no texto utilizando o comando \texttt{\textbackslash cite}, por exemplo:
+\begin{itemize}
+    \item Trabalho pioneiro de Shannon sobre Teoria da Informação \cite{shannon1948};
+    \item Referência essencial para tipografia técnica em {\LaTeX} \cite{knuth1984}.
+\end{itemize}
+
+Todas as referências citadas são compiladas automaticamente ao final do documento conforme a base de dados bibtex.
+
+\section{Conclusão}
+\label{sec:conclusao}
+
+Este modelo fornece uma estrutura sólida e extensível para a produção de documentos científicos de alta qualidade. Com suporte nativo a equações complexas, tipografia rigorosa e gestão bibliográfica automatizada, o pesquisador pode focar no conteúdo científico mantendo a garantia de conformidade com os padrões de publicação internacional.
+
+% ==============================================================================
+% IMPRESSÃO DA BIBLIOGRAFIA
+% ==============================================================================
+\printbibliography[title={Referências Bibliográficas}]
+
+\end{document}

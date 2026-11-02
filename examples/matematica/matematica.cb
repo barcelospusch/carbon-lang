@@ -1,0 +1,47 @@
+@title Tipografia científica e alfabeto grego
+@author Carbon
+@date 2 de novembro de 2026
+
+# Letras gregas
+O Carbon aceita comandos LaTeX e letras Unicode nas expressões matemáticas: $\alpha + \beta = \gamma$ e $α + β = γ$ são equivalentes.
+
+## Minúsculas
+$$
+\alpha\;\beta\;\gamma\;\delta\;\epsilon\;\zeta\;\eta\;\theta\;\iota\;\kappa\;\lambda\;\mu\;\nu\;\xi\;o\;\pi\;\rho\;\sigma\;\tau\;\upsilon\;\phi\;\chi\;\psi\;\omega
+$$
+
+## Maiúsculas e variantes
+$$
+\Gamma\;\Delta\;\Theta\;\Lambda\;\Xi\;\Pi\;\Sigma\;\Upsilon\;\Phi\;\Psi\;\Omega
+$$
+
+$$
+\varepsilon\;\vartheta\;\varpi\;\varrho\;\varsigma\;\varphi
+$$
+
+# Composição matemática
+Expoentes e índices agora são compostos: $E = mc^2$, $x_i$, $e^{i\pi}+1=0$. Os delimitadores se ajustam à altura das frações.
+
+$$
+f(x) = \frac{\alpha x^2 + \beta}{\sqrt{1 + x^2}}
+$$
+
+$$
+\hat{f}(\xi) = \int_{-\infty}^{\infty} f(t)\,e^{-2\pi i t\xi}\,dt
+$$
+
+$$
+\begin{aligned}
+\nabla\cdot\mathbf{E} &= \frac{\rho}{\varepsilon_0} \\
+\nabla\cdot\mathbf{B} &= 0 \\
+\nabla\times\mathbf{E} &= -\frac{\partial\mathbf{B}}{\partial t}
+\end{aligned}
+$$
+
+# Tabelas
+@caption Símbolos usados nas equações.
+| Grandeza | Símbolo | Exemplo |
+| --- | --- | --- |
+| Comprimento de onda | $\lambda$ | $\lambda = c/\nu$ |
+| Frequência angular | $\omega$ | $\omega = 2\pi\nu$ |
+| Incerteza | $\sigma$ | $\sigma^2 = \frac{1}{N}\sum_{i=1}^{N}(x_i-\mu)^2$ |

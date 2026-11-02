@@ -1,0 +1,21 @@
+@title Figuras, legendas e referências no Carbon
+@author Exemplo de compilação
+@date 2 de novembro de 2026
+
+# Resultados
+A Figura @ref(fig:curva) apresenta uma curva de luz sintética. A referência funciona antes da figura ser definida. O diagrama vetorial está na Figura @ref(fig:fluxo), página @pageref(fig:fluxo).
+
+![Curva de luz sintética, com queda de fluxo e recuperação. Os dados são apenas ilustrativos.](figuras/curvas/curva de luz.png){#fig:curva width=90% placement=htbp}
+
+# Fluxo de processamento
+A segunda página do arquivo PDF é incluída abaixo, com seus elementos vetoriais preservados. A primeira página do arquivo contém o gráfico e não é usada nesta figura.
+
+@caption Pipeline do compilador: leitura, **análise sintática**, composição e emissão do PDF.
+![Diagrama com quatro etapas conectadas por setas.](figuras/vetores/diagrama.pdf){#fig:fluxo width=95% page=2}
+
+# Compatibilidade JPEG
+A mesma curva também pode ser incluída como JPEG. Compare a Figura @ref(fig:jpeg) com a Figura @ref(fig:curva). A referência automática também é aceita: @autoref(fig:jpeg).
+
+![Curva sintética em formato JPEG.](figuras/curvas/curva-jpeg.jpg){#fig:jpeg width=70%}
+
+As três figuras têm numeração automática. A Figura @ref(fig:curva) está na página @pageref(fig:curva), e a Figura @ref(fig:jpeg) está na página @pageref(fig:jpeg).

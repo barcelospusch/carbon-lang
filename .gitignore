@@ -1,0 +1,10 @@
+/target/
+/output/
+/tmp/
+/tools/tectonic/
+/tools/mermaid/node_modules/
+/node_modules/
+/dist/
+*.cb.pdf
+.DS_Store
+Thumbs.db

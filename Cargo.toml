@@ -1,0 +1,27 @@
+[package]
+name = "carbon"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.88"
+description = "Carbon markup compiler with LaTeX typography, scientific math, figures and Mermaid diagrams"
+license = "MIT"
+readme = "README.md"
+keywords = ["markup", "pdf", "latex", "mermaid", "cli"]
+categories = ["command-line-utilities", "text-processing"]
+publish = false
+
+[dependencies]
+anyhow = "1.0.100"
+clap = { version = "4.5.50", features = ["derive"] }
+printpdf = { version = "=0.7.0", default-features = false }
+ttf-parser = "0.25.1"
+tempfile = "3.23.0"
+image = { version = "0.25.10", default-features = false, features = ["png", "jpeg"] }
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = true

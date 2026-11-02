@@ -1,0 +1,48 @@
+@title Diagramas Mermaid no Carbon
+@author Carbon
+@date 2 de novembro de 2026
+
+# Fluxograma
+O fluxo de compilação está na Figura @ref(fig:pipeline). O diagrama de sequência está na página @pageref(fig:sequencia).
+
+@caption Pipeline de compilação do Carbon.
+```mermaid {#fig:pipeline width=100%}
+flowchart LR
+    A[Documento .cb] --> B[Parser e AST]
+    B --> C[Layout LaTeX]
+    C --> D[PDF vetorial]
+```
+
+# Diagrama de sequência
+@caption Interação entre usuário, compilador e motor de composição.
+```mermaid {#fig:sequencia width=80%}
+sequenceDiagram
+    participant U as Usuario
+    participant C as Carbon
+    participant T as Tectonic
+    U->>C: documento.cb
+    C->>C: Validar e preparar figuras
+    C->>T: Documento LaTeX
+    T-->>C: PDF composto
+    C-->>U: saida.pdf
+```
+
+# Estados
+O diagrama de estados da Figura @ref(fig:estados) mostra a leitura, a validação e os possíveis resultados da compilação.
+
+@caption Transições de estado de uma compilação.
+```mermaid {#fig:estados width=100% placement=b}
+stateDiagram-v2
+    direction LR
+    [*] --> Leitura
+    Leitura --> Validacao
+    Validacao --> Renderizacao
+    Validacao --> Erro
+    Renderizacao --> Concluido
+    Concluido --> [*]
+    Erro --> [*]
+```
+
+Os diagramas usam os mesmos contadores das figuras. Veja as Figuras @ref(fig:pipeline), @ref(fig:sequencia) e @ref(fig:estados).
+
+

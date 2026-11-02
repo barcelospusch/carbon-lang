@@ -1,0 +1,34 @@
+@title Carbon: ciência com simplicidade
+@author Ana Silva e João Souza
+@date 2 de novembro de 2026
+
+# Introdução
+Carbon combina **texto em negrito**, *ênfase em itálico* e matemática inline $E = mc^2$. Os caracteres portugueses são preservados: ação, informação e conclusão.
+
+## Método
+O compilador transforma o documento em uma árvore de blocos e calcula as linhas com as métricas das fontes incorporadas. A equação abaixo usa composição matemática LaTeX, com expoentes e espaçamento próprios.
+
+$$
+E = mc^2
+$$
+
+### Implementação
+```rust
+fn energia(massa: f64, velocidade: f64) -> f64 {
+    massa * velocidade.powi(2)
+}
+```
+
+    # Código indentado também é preservado
+    resultado = energia(2.0, 3.0)
+
+## Resultados
+| Método | Amostras | Resultado |
+| --- | --- | --- |
+| Carbon | 120 | **Aprovado** |
+| Referência | 120 | *Comparável* |
+| Observação | 240 | Conteúdo longo é dividido automaticamente dentro das células da tabela. |
+
+## Conclusão
+Este documento demonstra metadados, hierarquia, formatação, equações, código e tabelas. Letras gregas aceitam comandos LaTeX: $\alpha + \beta = \gamma$, além dos caracteres Unicode $α + β = γ$.
+

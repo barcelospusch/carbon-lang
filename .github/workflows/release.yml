@@ -1,0 +1,85 @@
+name: Draft release
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing tag matching Cargo.toml (e.g. v0.1.0)
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  validate:
+    uses: ./.github/workflows/ci.yml
+    with:
+      ref: ${{ inputs.tag || github.ref_name }}
+  build:
+    needs: validate
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            target: x86_64-unknown-linux-gnu
+            binary: carbon
+          - os: windows-2022
+            target: x86_64-pc-windows-msvc
+            binary: carbon.exe
+          - os: macos-15
+            target: aarch64-apple-darwin
+            binary: carbon
+    runs-on: ${{ matrix.os }}
+    env:
+      RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.RELEASE_TAG }}
+          fetch-depth: 0
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: Swatinem/rust-cache@v2
+      - name: Verify tag and package version
+        run: python scripts/check-release-tag.py
+      - run: cargo build --release --locked --target ${{ matrix.target }}
+      - name: Package binary, docs, examples and runtime manifests
+        run: python scripts/package-release.py --target ${{ matrix.target }} --binary target/${{ matrix.target }}/release/${{ matrix.binary }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: carbon-${{ matrix.target }}
+          path: dist/*
+          if-no-files-found: error
+  draft:
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    env:
+      RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.RELEASE_TAG }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: carbon-*
+          merge-multiple: true
+          path: dist
+      - name: Create or update draft only
+        shell: bash
+        run: |
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            is_draft=$(gh release view "$RELEASE_TAG" --json isDraft --jq '.isDraft')
+            test "$is_draft" = true || { echo 'Refusing to modify a published release.'; exit 1; }
+          else
+            gh release create "$RELEASE_TAG" --draft --verify-tag --title "Carbon $RELEASE_TAG" --notes-file CHANGELOG.md
+          fi
+          gh release upload "$RELEASE_TAG" dist/* --clobber
